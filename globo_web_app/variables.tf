@@ -10,6 +10,12 @@ variable "localstack_endpoint_url" {
   default     = "http://localhost:4566"
 }
 
+variable "instance_type" {
+  type        = string
+  description = "EC2 instance type"
+  default     = "t2.micro"
+}
+
 variable "vpc_cidr_block" {
   type        = string
   description = "CIDR Block to use for the VPC"
