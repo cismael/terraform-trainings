@@ -2,14 +2,12 @@
 # DATA
 ##################################################################################
 
-# data "aws_ssm_parameter" "ami" {
-#  name = "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
-# }
-
 # Declare the data source
-data "aws_availability_zones" "available" {
-  state = "available"
-}
+#data "aws_availability_zones" "available" {
+#  state = "available"
+#}
+
+data "aws_availability_zones" "available" {}
 
 ##################################################################################
 # RESOURCES
@@ -30,18 +28,18 @@ resource "aws_internet_gateway" "igw" {
 }
 
 resource "aws_subnet" "subnet1" {
-  cidr_block              = var.vpc_subnets_cidr_block[0]
+  cidr_block              = var.vpc_subnets_cidr_blocks[0]
   vpc_id                  = aws_vpc.vpc.id
-  map_public_ip_on_launch = "true"
+  map_public_ip_on_launch = var.map_public_ip_on_launch
   availability_zone       = data.aws_availability_zones.available.names[0]
 
   tags = local.common_tags
 }
 
 resource "aws_subnet" "subnet2" {
-  cidr_block              = var.vpc_subnets_cidr_block[1]
+  cidr_block              = var.vpc_subnets_cidr_blocks[1]
   vpc_id                  = aws_vpc.vpc.id
-  map_public_ip_on_launch = "true"
+  map_public_ip_on_launch = var.map_public_ip_on_launch
   availability_zone       = data.aws_availability_zones.available.names[1]
 
   tags = local.common_tags
@@ -70,20 +68,20 @@ resource "aws_route_table_association" "rta-subnet2" {
 }
 
 # SECURITY GROUPS #
-# Nginx security group 
-resource "aws_security_group" "nginx-sg" {
-  name   = "nginx_sg"
-  vpc_id = aws_vpc.vpc.id
+resource "aws_security_group" "alb-sg" {
+  name        = "nginx_alb_sg"
+  description = "ALB Security Group"
+  vpc_id      = aws_vpc.vpc.id
 
-  # HTTP access from anywhere
+  #Allow HTTP from anywhere
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = [var.vpc_cidr_block]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # outbound internet access
+  #allow all outbound
   egress {
     from_port   = 0
     to_port     = 0
@@ -94,17 +92,18 @@ resource "aws_security_group" "nginx-sg" {
   tags = local.common_tags
 }
 
-# Application Load Balancer security group 
-resource "aws_security_group" "alb-sg" {
-  name   = "nginx_alb_sg"
-  vpc_id = aws_vpc.vpc.id
+# Nginx security group 
+resource "aws_security_group" "nginx-sg" {
+  name        = "nginx_sg"
+  description = "Nginx Security Group"
+  vpc_id      = aws_vpc.vpc.id
 
-  # HTTP access from anywhere
+  # HTTP access from VPC
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.vpc_cidr_block]
   }
 
   # outbound internet access

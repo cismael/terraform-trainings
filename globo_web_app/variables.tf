@@ -1,51 +1,61 @@
 variable "aws_region" {
   type        = string
-  description = "AWS region to use for resources"
-  default     = "us-east-1"
-}
-
-variable "localstack_endpoint_url" {
-  type        = string
-  description = "URL address for localstack on local machine"
-  default     = "http://localhost:4566"
-}
-
-variable "instance_type" {
-  type        = string
-  description = "EC2 instance type"
-  default     = "t2.micro"
-}
-
-variable "vpc_cidr_block" {
-  type        = string
-  description = "CIDR Block to use for the VPC"
-  default     = "10.0.0.0/16"
-}
-
-variable "vpc_subnets_cidr_block" {
-  type        = list(string)
-  description = "CIDR Block for subnets in VPC"
-  default     = ["10.0.0.0/24", "10.0.1.0/24"]
+  description = "Region for AWS Resources"
+  default     = "eu-west-3"
+  #default     = "us-east-1"
 }
 
 variable "enable_dns_hostnames" {
   type        = bool
-  description = "Enable DNS hostname"
+  description = "Enable DNS hostnames in VPC"
   default     = true
+}
+
+variable "vpc_cidr_block" {
+  type        = string
+  description = "Base CIDR Block for VPC"
+  default     = "10.0.0.0/16"
+}
+
+variable "vpc_subnets_cidr_blocks" {
+  type        = list(string)
+  description = "CIDR Blocks for Subnets in VPC"
+  default     = ["10.0.0.0/24", "10.0.1.0/24"]
+}
+
+variable "map_public_ip_on_launch" {
+  type        = bool
+  description = "Map a public IP address for Subnet instances"
+  default     = true
+}
+
+variable "instance_type" {
+  type        = string
+  description = "Type for EC2 Instance"
+  default     = "t2.micro"
 }
 
 variable "company" {
   type        = string
-  description = "The company name for resource tagging"
-  default     = "ICO in the cloud"
+  description = "Company name for resource tagging"
+  default     = "Globomantics - ICO in the cloud"
 }
 
 variable "project" {
   type        = string
-  description = "The projet name for resource tagging"
+  description = "Project name for resource tagging"
 }
 
 variable "billing_code" {
   type        = string
-  description = "The billing code to use for resource tagging"
+  description = "Billing code for resource tagging"
+}
+
+##################################################################################
+# LOCAL STACK
+##################################################################################
+variable "localstack_endpoint_url" {
+  type        = string
+  description = "URL address for localstack on local machine"
+  default     = "http://localhost:4566"
 }

@@ -6,7 +6,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.27"
+      version = "~> 3.0"
     }
 
     random = {
@@ -19,12 +19,13 @@ terraform {
 }
 
 provider "aws" {
-  region                      = var.aws_region
-  profile                     = "default"
-  skip_credentials_validation = true
-  skip_metadata_api_check     = true
-  skip_requesting_account_id  = true
+  region  = var.aws_region
+  profile = "default"
+  #skip_credentials_validation = true
+  #skip_metadata_api_check     = true
+  #skip_requesting_account_id  = true
 
+  /*
   endpoints {
     apigateway     = var.localstack_endpoint_url
     cloudformation = var.localstack_endpoint_url
@@ -46,7 +47,7 @@ provider "aws" {
     ssm            = var.localstack_endpoint_url
     stepfunctions  = var.localstack_endpoint_url
     sts            = var.localstack_endpoint_url
-  }
+  }*/
 }
 
 provider "random" {
