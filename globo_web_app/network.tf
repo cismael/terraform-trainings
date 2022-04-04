@@ -16,7 +16,7 @@ data "aws_availability_zones" "available" {}
 # NETWORKING #
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 3.14"
+  version = "3.10.0"
 
   cidr           = var.vpc_cidr_block
   azs            = slice(data.aws_availability_zones.available.names, 0, (var.vpc_subnet_count))
@@ -34,9 +34,9 @@ module "vpc" {
 # SECURITY GROUPS #
 # ALB Security Group
 resource "aws_security_group" "alb-sg" {
-  name   = "${local.name_prefix}-nginx_alb_sg"
+  name        = "${local.name_prefix}-nginx_alb_sg"
   description = "ALB Security Group"
-  vpc_id = module.vpc.vpc_id
+  vpc_id      = module.vpc.vpc_id
 
   #Allow HTTP from anywhere
   ingress {
