@@ -20,7 +20,7 @@ resource "aws_lb" "nginx" {
   enable_deletion_protection = false
 
   access_logs {
-    bucket  = aws_s3_bucket.web_bucket.bucket
+    bucket  = module.web_app_s3.web_bucket.id
     prefix  = "alb-logs"
     enabled = true
   }
