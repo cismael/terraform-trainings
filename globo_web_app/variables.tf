@@ -29,12 +29,6 @@ variable "vpc_subnet_count" {
   default     = 2
 }
 
-variable "vpc_subnets_cidr_blocks" {
-  type        = list(string)
-  description = "CIDR Blocks for Subnets in VPC"
-  default     = ["10.0.0.0/24", "10.0.1.0/24"]
-}
-
 variable "map_public_ip_on_launch" {
   type        = bool
   description = "Map a public IP address for Subnet instances"
