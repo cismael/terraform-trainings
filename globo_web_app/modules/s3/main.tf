@@ -1,9 +1,20 @@
 # AMAZON S3 Bucket
 resource "aws_s3_bucket" "web_bucket" {
   bucket        = var.bucket_name
-  acl           = "private"
   force_destroy = true
 
+  tags = var.common_tags
+}
+
+# S3 bucket ACL
+resource "aws_s3_bucket_acl" "web_bucket_acl" {
+  bucket = aws_s3_bucket.web_bucket.id
+  acl    = "private"
+}
+
+# S3 bucket Policy
+resource "aws_s3_bucket_policy" "web_bucket_policy" {
+  bucket = aws_s3_bucket.web_bucket.id
   policy = <<POLICY
 {
 "Version": "2012-10-17",
@@ -40,8 +51,6 @@ resource "aws_s3_bucket" "web_bucket" {
   ]
 }
   POLICY
-
-  tags = var.common_tags
 }
 
 # AWS IAM Role for instance
