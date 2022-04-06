@@ -8,7 +8,7 @@ module "web_app_s3" {
 }
 
 # Objects in the AMAZON S3 Bucket
-resource "aws_s3_bucket_object" "website" {
+resource "aws_s3_object" "website" {
   for_each = {
     website = "/website/index.html"
     logo    = "/website/Globo_logo_Vert.png"
