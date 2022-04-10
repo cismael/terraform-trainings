@@ -19,6 +19,7 @@ resource "aws_launch_configuration" "webapp_lc" {
 
   user_data                   = file("./templates/userdata.sh")
   associate_public_ip_address = true
+  iam_instance_profile        = aws_iam_instance_profile.asg.name
 }
 
 resource "aws_elb" "webapp_elb" {
@@ -47,7 +48,7 @@ resource "aws_elb" "webapp_elb" {
 
 resource "aws_autoscaling_group" "webapp_asg" {
   lifecycle {
-    create_before_destroy = true
+    create_before_destroy = false
   }
 
   vpc_zone_identifier   = data.terraform_remote_state.networking.outputs.public_subnets
