@@ -32,7 +32,7 @@ module "vpc" {
   private_subnets = data.template_file.private_cidrsubnet.*.rendered
   public_subnets  = data.template_file.public_cidrsubnet.*.rendered
 
-  enable_nat_gateway = false
+  enable_nat_gateway = true
 
   create_database_subnet_group = false
 
