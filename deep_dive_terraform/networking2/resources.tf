@@ -7,7 +7,7 @@ data "aws_availability_zones" "available" {}
 data "consul_keys" "networking" {
   key {
     name = "networking"
-    path = "networking/configuration/globo-primary/net_info"
+    path = terraform.workspace == "default" ? "networking/configuration/globo-primary/net_info" : "networking/configuration/globo-primary/${terraform.workspace}/net_info"
   }
 
   key {
@@ -25,7 +25,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~>2.0"
 
-  name = "globo-primary"
+  name = "globo-primary-${terraform.workspace}"
 
   cidr            = local.cidr_block
   azs             = slice(data.aws_availability_zones.available.names, 0, local.subnet_count)
