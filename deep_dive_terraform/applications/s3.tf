@@ -11,7 +11,7 @@ resource "random_integer" "rand" {
 }
 
 locals {
-  bucket_name         = "${var.aws_bucket_prefix}-${random_integer.rand.result}"
+  bucket_name = "${var.aws_bucket_prefix}-${random_integer.rand.result}"
 }
 
 resource "aws_s3_bucket" "logs_bucket" {
