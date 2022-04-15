@@ -41,3 +41,6 @@ variable "rds_password" {
   default     = "TerraformIsNumber1!"
   description = "password, provide through your ENV variables"
 }
+
+### Ansible Playbook variables
+variable "playbook_repository" {}

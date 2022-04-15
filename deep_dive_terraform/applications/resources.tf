@@ -8,7 +8,7 @@ resource "aws_launch_configuration" "webapp_lc" {
   }
 
   name_prefix   = "${terraform.workspace}-ddt-lc-"
-  image_id      = data.aws_ami.aws_linux.id
+  image_id      = data.aws_ami.ubuntu.id
   instance_type = local.asg_instance_size
 
   security_groups = [
@@ -17,7 +17,7 @@ resource "aws_launch_configuration" "webapp_lc" {
     aws_security_group.webapp_outbound_sg.id,
   ]
 
-  user_data                   = file("./templates/userdata.sh")
+  user_data                   = data.template_file.userdata.rendered
   associate_public_ip_address = true
   iam_instance_profile        = aws_iam_instance_profile.asg.name
 }

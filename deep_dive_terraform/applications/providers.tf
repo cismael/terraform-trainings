@@ -9,7 +9,6 @@ terraform {
       source  = "hashicorp/aws"
       version = "~>3.0"
     }
-
     consul = {
       source  = "hashicorp/consul"
       version = "~>2.0"
@@ -22,7 +21,8 @@ terraform {
 ##################################################################################
 
 provider "aws" {
-  region = var.region
+  profile = "default"
+  region  = var.region
 }
 
 provider "consul" {

@@ -33,7 +33,7 @@ resource "aws_iam_instance_profile" "asg" {
     create_before_destroy = false
   }
 
-  name = "${terraform.workspace}_asg_profile_bug"
+  name = "${terraform.workspace}_asg_profile"
   role = aws_iam_role.asg.name
 }
 
